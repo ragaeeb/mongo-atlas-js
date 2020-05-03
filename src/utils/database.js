@@ -25,6 +25,13 @@ const openDB = async () => {
   return null;
 };
 
+const remove = async (table, id) => {
+  const element = get(table, id);
+  await client.collection(table).deleteOne({ _id: new mongodb.ObjectId(id) });
+
+  return element;
+};
+
 const get = async (table, id) => {
   if (!id) {
     // by default .find() gives us a cursor, since it can be a huge list
@@ -32,10 +39,13 @@ const get = async (table, id) => {
     return client.collection(table).find().toArray();
   }
 
-  return client
-    .collection(table)
-    .find({ _id: new mongodb.ObjectId(id) })
-    .next();
+  return (
+    client
+      .collection(table)
+      // find() gives us a cursor
+      .find({ _id: new mongodb.ObjectId(id) })
+      .next()
+  );
 };
 
 const put = async (table, model) => {
@@ -48,4 +58,5 @@ module.exports = {
   get,
   openDB,
   put,
+  remove,
 };

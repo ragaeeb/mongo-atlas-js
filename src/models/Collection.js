@@ -1,9 +1,13 @@
-const { get, put } = require("../utils/database");
+const { get, put, remove } = require("../utils/database");
 class Collection {
   constructor(title, arabicTitle, author) {
     this.title = title;
     this.arabicTitle = arabicTitle;
     this.author = author;
+  }
+
+  static async delete(id) {
+    return remove("collections", id);
   }
 
   async put() {
