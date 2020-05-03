@@ -21,6 +21,13 @@ const createCollection = async (req, res) => {
   const c = new Collection(title, arabicTitle, author);
   const newCollection = await c.put();
 
+  req.user.logs.push({
+    type: "Created",
+    model: "Collections",
+    key: newCollection._id,
+  });
+  await req.user.put();
+
   res.json(newCollection);
 };
 

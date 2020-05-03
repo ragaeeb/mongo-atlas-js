@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const { openDB } = require("./src/utils/database");
 
 const collectionRoutes = require("./src/routes/collections");
+const { getUser } = require("./src/controllers/users");
 
 const init = async () => {
   const app = express();
@@ -15,10 +16,12 @@ const init = async () => {
   // parse application/json
   app.use(bodyParser.json());
 
+  app.use(getUser);
+
   app.use("/collections", collectionRoutes);
 
   const client = await openDB();
-  console.log("COnnected client");
+  console.log("Connected to database");
 
   app.listen(3000);
 };
