@@ -47,6 +47,10 @@ const get = async (table, id) => {
   );
 };
 
+const getTable = (table) => {
+  return client.collection(table);
+};
+
 const findMatches = async (table, ids) => {
   return client
     .collection(table)
@@ -71,6 +75,7 @@ const put = async (table, model) => {
 module.exports = {
   findMatches,
   get,
+  getTable,
   openDB,
   put,
   remove,

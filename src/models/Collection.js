@@ -1,4 +1,4 @@
-const { get, put, remove } = require("../utils/database");
+const { get, getTable, put, remove } = require("../utils/database");
 class Collection {
   constructor(title, arabicTitle, author, id) {
     this.title = title;
@@ -17,6 +17,10 @@ class Collection {
 
   static async get(id) {
     return get("collections", id);
+  }
+
+  static async getCollectionsUnderLibrary(library) {
+    return getTable("collections").find({ "library.name": library }).toArray();
   }
 }
 

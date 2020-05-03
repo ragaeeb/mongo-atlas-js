@@ -15,6 +15,14 @@ const getCollections = async (req, res) => {
   res.json(collections);
 };
 
+const getCollectionsUnderLibrary = async (req, res) => {
+  const collections = await Collection.getCollectionsUnderLibrary(
+    req.params.name
+  );
+
+  res.json(collections);
+};
+
 const createCollection = async (req, res) => {
   const { title, arabicTitle, author } = req.body;
   console.log("create", title, arabicTitle, author);
@@ -44,6 +52,7 @@ const updateCollection = async (req, res) => {
 module.exports = {
   deleteCollection,
   createCollection,
+  getCollectionsUnderLibrary,
   getCollection,
   getCollections,
   updateCollection,

@@ -4,11 +4,14 @@ const {
   deleteCollection,
   getCollection,
   getCollections,
+  getCollectionsUnderLibrary,
   updateCollection,
 } = require("../controllers/collections");
 const router = express.Router();
 
 router.get("/", getCollections);
+
+router.get("/library/:name", getCollectionsUnderLibrary);
 
 // order matters, this needs to come after the / GET
 router.get("/:id", getCollection);
