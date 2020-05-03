@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const { openDB } = require("./src/utils/database");
 
 const collectionRoutes = require("./src/routes/collections");
+const userRoutes = require("./src/routes/users");
 const { getUser } = require("./src/controllers/users");
 
 const init = async () => {
@@ -19,6 +20,7 @@ const init = async () => {
   app.use(getUser);
 
   app.use("/collections", collectionRoutes);
+  app.use("/users", userRoutes);
 
   const client = await openDB();
   console.log("Connected to database");

@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const { findMatches } = require("../utils/database");
 
 const getUser = async (req, res, next) => {
   try {
@@ -17,6 +18,17 @@ const getUser = async (req, res, next) => {
   }
 };
 
+const getUserCollections = async (req, res) => {
+  const collectionIds = req.user.logs
+    .filter(({ model, type }) => model === "Collections" && type === "Created")
+    .map(({ key }) => key);
+
+  const collections = await findMatches("collections", collectionIds);
+
+  res.json(collections);
+};
+
 module.exports = {
   getUser,
+  getUserCollections,
 };
