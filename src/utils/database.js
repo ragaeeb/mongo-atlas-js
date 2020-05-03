@@ -9,9 +9,11 @@ const openDB = async () => {
       return Promise.resolve(client);
     }
 
-    client = await MongoClient.connect(process.env.ATLAS_LOGIN_URL, {
+    const connection = await MongoClient.connect(process.env.ATLAS_LOGIN_URL, {
       useUnifiedTopology: true,
     });
+
+    client = connection.db();
 
     console.log("Successfully connected to DB!");
 
