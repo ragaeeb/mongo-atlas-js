@@ -1,11 +1,11 @@
 const express = require("express");
 const {
   createCollection,
-  getCollection,
+  getCollections,
 } = require("../controllers/collections");
 const router = express.Router();
 
-router.get("/", getCollection);
+router.get("/", getCollections);
 router.post("/", createCollection);
 
 module.exports = router;
