@@ -1,5 +1,4 @@
-const mongodb = require("mongodb");
-const MongoClient = mongodb.MongoClient;
+const { MongoClient, ObjectId } = require("mongodb");
 
 let client;
 
@@ -27,7 +26,7 @@ const openDB = async () => {
 
 const remove = async (table, id) => {
   const element = get(table, id);
-  await client.collection(table).deleteOne({ _id: new mongodb.ObjectId(id) });
+  await client.collection(table).deleteOne({ _id: new ObjectId(id) });
 
   return element;
 };
@@ -43,12 +42,20 @@ const get = async (table, id) => {
     client
       .collection(table)
       // find() gives us a cursor
-      .find({ _id: new mongodb.ObjectId(id) })
+      .find({ _id: new ObjectId(id) })
       .next()
   );
 };
 
 const put = async (table, model) => {
+  if (model._id) {
+    const copy = { ...model, _id: new ObjectId(model._id) };
+    const result = await client
+      .collection(table)
+      .updateOne({ _id: copy._id }, { $set: copy });
+    return result;
+  }
+
   const result = await client.collection(table).insertOne(model);
   const { ops } = result;
   return ops[0];

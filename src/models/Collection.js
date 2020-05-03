@@ -1,9 +1,10 @@
 const { get, put, remove } = require("../utils/database");
 class Collection {
-  constructor(title, arabicTitle, author) {
+  constructor(title, arabicTitle, author, id) {
     this.title = title;
     this.arabicTitle = arabicTitle;
     this.author = author;
+    this._id = id;
   }
 
   static async delete(id) {
