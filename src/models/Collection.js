@@ -1,4 +1,4 @@
-const { getDB } = require("../utils/database");
+const { get, put } = require("../utils/database");
 class Collection {
   constructor(title, arabicTitle, author) {
     this.title = title;
@@ -6,19 +6,12 @@ class Collection {
     this.author = author;
   }
 
-  async save() {
-    const client = getDB();
-    const result = await client.collection("collections").insertOne(this);
-    return result;
+  async put() {
+    return put("collections", this);
   }
 
-  static async fetchAll() {
-    const client = getDB();
-
-    // by default .find() gives us a cursor, since it can be a huge list
-    // but when we do toArray(), then that actually gets everything
-    const collections = await client.collection("collections").find().toArray();
-    return collections;
+  static async get(id) {
+    return get("collections", id);
   }
 }
 
