@@ -1,4 +1,4 @@
-const { get, getTable, put, remove } = require("../utils/database");
+const { get, getTable, put, putAll, remove } = require("../utils/database");
 class Collection {
   constructor(title, arabicTitle, author, id) {
     this.title = title;
@@ -13,6 +13,10 @@ class Collection {
 
   async put() {
     return put("collections", this);
+  }
+
+  static async putAll(collections) {
+    return putAll("collections", collections);
   }
 
   static async get(id) {

@@ -1,5 +1,7 @@
 This project is following the course entitled [NodeJS - The Complete Guide (incl. MVC, REST APIs, GraphQL)](https://www.udemy.com/course/nodejs-the-complete-guide) by `Maximilian Schwarzmüller`.
 
+It also uses concepts from the course entitled [Using MongoDB with Node.js](https://app.pluralsight.com/library/courses/mongodb-nodejs/table-of-contents) by `Jonathan Mills`.
+
 # Instructions
 
 1. Go to https://cloud.mongodb.com

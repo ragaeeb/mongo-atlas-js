@@ -58,6 +58,11 @@ const findMatches = async (table, ids) => {
     .toArray();
 };
 
+const putAll = async (table, data) => {
+  const { ops } = await client.collection(table).insertMany(data);
+  return ops;
+};
+
 const put = async (table, model) => {
   if (model._id) {
     const copy = { ...model, _id: new ObjectId(model._id) };
@@ -78,5 +83,6 @@ module.exports = {
   getTable,
   openDB,
   put,
+  putAll,
   remove,
 };

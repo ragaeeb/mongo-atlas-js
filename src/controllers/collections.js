@@ -24,19 +24,33 @@ const getCollectionsUnderLibrary = async (req, res) => {
 };
 
 const createCollection = async (req, res) => {
-  const { title, arabicTitle, author } = req.body;
-  console.log("create", title, arabicTitle, author);
-  const c = new Collection(title, arabicTitle, author);
-  const newCollection = await c.put();
+  const { title, arabicTitle, author, titles } = req.body;
 
-  req.user.logs.push({
-    type: "Created",
-    model: "Collections",
-    key: newCollection._id,
-  });
-  await req.user.put();
+  if (Array.isArray(titles) && titles.length > 0) {
+    const result = await Collection.putAll(titles);
 
-  res.json(newCollection);
+    result.forEach(({ _id }) => {
+      req.user.logs.push({
+        type: "Created",
+        model: "Collections",
+        key: _id,
+      });
+    });
+
+    await req.user.put();
+    res.json(result);
+  } else {
+    const c = new Collection(title, arabicTitle, author);
+    const newCollection = await c.put();
+
+    req.user.logs.push({
+      type: "Created",
+      model: "Collections",
+      key: newCollection._id,
+    });
+    await req.user.put();
+    res.json(newCollection);
+  }
 };
 
 const updateCollection = async (req, res) => {
