@@ -69,10 +69,12 @@ const putAll = async (table, data) => {
 const put = async (table, model) => {
   if (model._id) {
     const copy = { ...model, _id: new ObjectId(model._id) };
-    const result = await client
+    const { value } = await client
       .collection(table)
-      .updateOne({ _id: copy._id }, { $set: copy });
-    return result;
+      .findOneAndReplace({ _id: copy._id }, copy);
+    //.updateOne({ _id: copy._id }, { $set: copy });
+
+    return value;
   }
 
   const result = await client.collection(table).insertOne(model);
