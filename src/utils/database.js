@@ -31,20 +31,23 @@ const remove = async (table, id) => {
   return element;
 };
 
-const get = async (table, id) => {
+const get = async (table, id, limit) => {
   if (!id) {
     // by default .find() gives us a cursor, since it can be a huge list
     // but when we do toArray(), then that actually gets everything
-    return client.collection(table).find().toArray();
+    let cursor = client.collection(table).find();
+
+    if (limit > 0) {
+      cursor = cursor.limit(limit);
+    }
+
+    return cursor.toArray();
   }
 
-  return (
-    client
-      .collection(table)
-      // find() gives us a cursor
-      .find({ _id: new ObjectId(id) })
-      .next()
-  );
+  return client.collection(table).findOne({ _id: new ObjectId(id) });
+  // find() gives us a cursor
+  /*.find({ _id: new ObjectId(id) })
+      .next() */
 };
 
 const getTable = (table) => {
